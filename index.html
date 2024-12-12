@@ -178,68 +178,41 @@
         <h3 id="classification" class="result" style="display:none;"></h3>
     </div>
 
- function calculateScore() {
-    let totalScore = 0; // Punteggio complessivo
-    let isCritical = false; // Indica se il paziente è grave
+<script>
+        function calculateScore() {
+            let totalScore = 0;
 
-    // Verifica condizioni critiche
-    const sociale = document.querySelector('input[name="sociale"]:checked');
-    const caregiver = document.querySelector('input[name="caregiver"]:checked');
-    const cognitivo = document.querySelector('input[name="cognitivo"]:checked');
-    const mobilita = document.querySelector('input[name="mobilita"]:checked');
-    const economiche = document.querySelector('input[name="economiche"]:checked');
-    const terapia = document.querySelector('input[name="terapia"]:checked');
-    const medico = document.querySelector('input[name="medico"]:checked');
+            // Single-selection questions
+            const singleSelection = ['eta', 'sociale', 'caregiver', 'cognitivo', 'mobilita', 'farmaci', 'terapia', 'economiche', 'parametri', 'dispositivi', 'medico', 'prenotazioni', 'ricoveri'];
+            singleSelection.forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) totalScore += parseInt(selected.value);
+            });
 
-    // Condizione critica: Vive da solo o con supporto familiare e senza caregiver
-    if ((sociale && parseInt(sociale.value) >= 1) && (caregiver && parseInt(caregiver.value) === 2)) {
-        isCritical = true;
-    }
+            // Multiple-selection questions
+            const multipleSelection = ['aiuto', 'incapacita', 'patologie'];
+            multipleSelection.forEach(name => {
+                const selected = document.querySelectorAll(`input[name="${name}"]:checked`);
+                selected.forEach(option => totalScore += parseInt(option.value));
+            });
 
-    // Condizioni critiche aggiuntive
-    if (
-        (cognitivo && parseInt(cognitivo.value) >= 2) || // Disorientato o aggressivo
-        (mobilita && parseInt(mobilita.value) === 3) || // Non deambula
-        (economiche && parseInt(economiche.value) === 2) || // Difficoltà economiche
-        (terapia && parseInt(terapia.value) === 3) || // Non assume la terapia
-        (medico && parseInt(medico.value) === 2) // Non ha un medico di base
-    ) {
-        isCritical = true;
-    }
+            // Display total score
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('result').style.display = 'block';
 
-    // Calcolo del punteggio complessivo
-    const singleSelection = ['eta', 'sociale', 'caregiver', 'cognitivo', 'mobilita', 'farmaci', 'terapia', 'economiche', 'parametri', 'dispositivi', 'medico', 'prenotazioni', 'ricoveri'];
-    singleSelection.forEach(name => {
-        const selected = document.querySelector(`input[name="${name}"]:checked`);
-        if (selected) totalScore += parseInt(selected.value);
-    });
+            // Classification
+            const classification = document.getElementById('classification');
+            if (totalScore <= 14) {
+                classification.textContent = 'Classificazione: Non Fragile. Monitora il paziente periodicamente per eventuali cambiamenti.';
+            } else if (totalScore <= 33) {
+                classification.textContent = 'Classificazione: Moderatamente Fragile. Assicurati di ottenere informazioni necessarie per supportare al meglio il paziente.';
+            } else {
+                classification.textContent = 'Classificazione: Fragile Grave. Contatta immediatamente il MMG e il Distretto di riferimento per una presa in carico strutturata.';
+            }
+            classification.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
 
-    // Condizioni multiple
-    const aiuto = document.querySelectorAll('input[name="aiuto"]:checked').length;
-    if (aiuto >= 2) totalScore += 2; // Almeno 2 voci selezionate
-    const incapacita = document.querySelectorAll('input[name="incapacita"]:checked').length;
-    if (incapacita >= 2) totalScore += 2; // Almeno 2 voci selezionate
-    const patologie = document.querySelectorAll('input[name="patologie"]:checked').length;
-    if (patologie >= 1) totalScore += 1; // Almeno 1 patologia cronica
-
-    // Determina la classificazione
-    const classification = document.getElementById('classification');
-    if (isCritical) {
-        classification.textContent = 'Classificazione: Fragile Grave. Contatta subito il distretto sanitario di riferimento per informazioni e supporto immediato.';
-    } else if (totalScore <= 14) {
-        classification.textContent = 'Classificazione: Non Fragile. Per ora il paziente non è in pericolo, monitora periodicamente.';
-    } else if (totalScore <= 33) {
-        classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il MMG di riferimento per un controllo.';
-    } else {
-        classification.textContent = 'Classificazione: Fragile Grave. Contatta subito il distretto sanitario di riferimento per informazioni e supporto immediato.';
-    }
-
-    // Mostra i risultati
-    document.getElementById('totalScore').textContent = totalScore;
-    document.getElementById('result').style.display = 'block';
-    classification.style.display = 'block';
-}
-
-    document.getElementById('result').style.display = 'block';
-    classification.style.display = 'block';
 }
