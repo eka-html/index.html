@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valutazione della Fragilità del Paziente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .result span {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Valutazione della Fragilità del Paziente</h1>
+        <p>Questo quiz è progettato per valutare il livello di fragilità di un paziente attraverso una serie di domande riguardanti lo stato di salute, autonomia, supporto sociale e condizioni mediche. Il punteggio ottenuto classifica il paziente in una delle seguenti categorie: <strong>Non Fragile</strong>, <strong>Moderatamente Fragile</strong> o <strong>Fragile Grave</strong>.</p>
+        <p>Rispondi alle domande selezionando le opzioni che meglio descrivono la situazione del paziente.</p>
+        <form id="quizForm">
+            <!-- 1. Età del Paziente -->
+            <div class="question">
+                <h3>1. Età del Paziente</h3>
+                <label><input type="radio" name="eta" value="0"> &lt; 65 anni</label><br>
+                <label><input type="radio" name="eta" value="1"> 65-80 anni</label><br>
+                <label><input type="radio" name="eta" value="2"> &gt; 80 anni</label>
+            </div>
+
+            <!-- 2. Aiuto Necessario -->
+            <div class="question">
+                <h3>2. Il paziente necessita aiuto per (seleziona 1 o più opzioni)</h3>
+                <label><input type="checkbox" name="aiuto" value="1"> Per lavarsi</label><br>
+                <label><input type="checkbox" name="aiuto" value="1"> Per vestirsi</label><br>
+                <label><input type="checkbox" name="aiuto" value="1"> Per usare i servizi</label><br>
+                <label><input type="checkbox" name="aiuto" value="1"> Per spostarsi (in casa)</label><br>
+                <label><input type="checkbox" name="aiuto" value="1"> Soffre d'incontinenza</label><br>
+                <label><input type="checkbox" name="aiuto" value="1"> Per alimentarsi</label>
+            </div>
+            <!-- 3. Non è in grado di -->
+            <div class="question">
+                <h3>3. Il paziente non è in grado di (seleziona 1 o più opzioni)</h3>
+                <label><input type="checkbox" name="incapacita" value="1"> Usare il cellulare</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Acquistare nei negozi</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Prendere mezzi di trasporto</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Cucinare o servirsi il cibo in autonomia</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Gestire il proprio denaro</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Accudire casa propria</label><br>
+                <label><input type="checkbox" name="incapacita" value="1"> Fare il bucato</label>
+            </div>
+
+            <!-- 4. Patologie Croniche -->
+            <div class="question">
+                <h3>4. Patologie Croniche (seleziona 1 o più opzioni)</h3>
+                <label><input type="checkbox" name="patologie" value="1"> Ipertensione arteriosa</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Diabete mellito</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Malattie cardiache</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Malattie polmonari</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Patologie vascolari</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Patologie nefrologiche</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Patologie oncologiche</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Patologie psichiatriche</label><br>
+                <label><input type="checkbox" name="patologie" value="1"> Patologie degenerative</label>
+            </div>
+            <!-- 7. Stato Cognitivo -->
+            <div class="question">
+                <h3>7. Stato Cognitivo Attuale</h3>
+                <label><input type="radio" name="cognitivo" value="0"> Vigile ed orientato</label><br>
+                <label><input type="radio" name="cognitivo" value="1"> Vigile ed orientato a volte</label><br>
+                <label><input type="radio" name="cognitivo" value="2"> Disorientato la maggior parte del tempo</label><br>
+                <label><input type="radio" name="cognitivo" value="3"> Disorientato sempre con tendenze aggressive</label><br>
+                <label><input type="radio" name="cognitivo" value="2"> Stato comatoso</label>
+            </div>
+
+            <!-- 8. Mobilità -->
+            <div class="question">
+                <h3>8. Mobilità</h3>
+                <label><input type="radio" name="mobilita" value="0"> Deambula in autonomia</label><br>
+                <label><input type="radio" name="mobilita" value="1"> Deambula con ausili o assistenza</label><br>
+                <label><input type="radio" name="mobilita" value="2"> Deambula solo con assistenza</label><br>
+                <label><input type="radio" name="mobilita" value="3"> Non deambula</label>
+            </div>
+
+            <!-- 9. Numero di Farmaci Assunti -->
+            <div class="question">
+                <h3>9. Numero di Farmaci Assunti</h3>
+                <label><input type="radio" name="farmaci" value="1"> Meno di tre farmaci</label><br>
+                <label><input type="radio" name="farmaci" value="2"> Tra i tre e i 5 farmaci</label><br>
+                <label><input type="radio" name="farmaci" value="3"> Più di 5 farmaci</label>
+            </div>
+            <!-- 10. Assume la Terapia -->
+            <div class="question">
+                <h3>10. Assume la Terapia?</h3>
+                <label><input type="radio" name="terapia" value="0"> Sì in autonomia secondo gli orari programmati</label><br>
+                <label><input type="radio" name="terapia" value="1"> Sì in autonomia se viene preparata da altri</label><br>
+                <label><input type="radio" name="terapia" value="2"> Sì ma non in autonomia</label><br>
+                <label><input type="radio" name="terapia" value="3"> No non l'assume oppure lo fa ma senza seguire le prescrizioni</label>
+            </div>
+
+            <!-- 11. Difficoltà Economiche -->
+            <div class="question">
+                <h3>11. Ha difficoltà economiche?</h3>
+                <label><input type="radio" name="economiche" value="2"> Sì</label><br>
+                <label><input type="radio" name="economiche" value="0"> No</label>
+            </div>
+
+            <!-- 12. Parametri Vitali -->
+            <div class="question">
+                <h3>12. Per gestire la sua salute necessita di rilevazione di parametri vitali?</h3>
+                <label><input type="radio" name="parametri" value="0"> No</label><br>
+                <label><input type="radio" name="parametri" value="1"> Sì e lo fa</label><br>
+                <label><input type="radio" name="parametri" value="2"> Sì ma non lo fa</label>
+            </div>
+            <!-- 13. Dispositivi Medici -->
+            <div class="question">
+                <h3>13. Utilizza Dispositivi Medici (OSSIGENO TERAPIA, C-PAP, SENSORE GLICEMIA, CATETERE VESCICALE..)?</h3>
+                <label><input type="radio" name="dispositivi" value="1"> Sì</label><br>
+                <label><input type="radio" name="dispositivi" value="0"> No</label>
+            </div>
+
+            <!-- 14. Medico di Base -->
+            <div class="question">
+                <h3>14. Ha un medico di base di riferimento?</h3>
+                <label><input type="radio" name="medico" value="0"> Sì</label><br>
+                <label><input type="radio" name="medico" value="2"> No</label>
+            </div>
+
+            <!-- 15. Prenotazioni Visite/Esami -->
+            <div class="question">
+                <h3>15. Riesce a prenotare visite o esami in autonomia?</h3>
+                <label><input type="radio" name="prenotazioni" value="0"> Sì</label><br>
+                <label><input type="radio" name="prenotazioni" value="1"> No</label>
+            </div>
+
+            <!-- 16. Ricoveri Recenti -->
+            <div class="question">
+                <h3>16. Il paziente è stato ricoverato negli ultimi 6 mesi?</h3>
+                <label><input type="radio" name="ricoveri" value="1"> Sì</label><br>
+                <label><input type="radio" name="ricoveri" value="0"> No</label>
+            </div>
+            <button type="button" onclick="calculateScore()">Calcola Punteggio</button>
+        </form>
+
+        <h2 id="result" class="result" style="display:none;">Punteggio Totale: <span id="totalScore"></span></h2>
+        <h3 id="classification" class="result" style="display:none;"></h3>
+    </div>
+
+    <script>
+        function calculateScore() {
+            let totalScore = 0;
+
+            // Single-selection questions
+            const singleSelection = ['eta', 'sociale', 'caregiver', 'cognitivo', 'mobilita', 'farmaci', 'terapia', 'economiche', 'parametri', 'dispositivi', 'medico', 'prenotazioni', 'ricoveri'];
+            singleSelection.forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) totalScore += parseInt(selected.value);
+            });
+
+            // Multiple-selection questions
+            const multipleSelection = ['aiuto', 'incapacita', 'patologie'];
+            multipleSelection.forEach(name => {
+                const selected = document.querySelectorAll(`input[name="${name}"]:checked`);
+                selected.forEach(option => totalScore += parseInt(option.value));
+            });
+
+            // Display total score
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('result').style.display = 'block';
+
+            // Classification
+            const classification = document.getElementById('classification');
+            if (totalScore <= 14) {
+                classification.textContent = 'Classificazione: Non Fragile. Monitora il paziente periodicamente per eventuali cambiamenti.';
+            } else if (totalScore <= 33) {
+                classification.textContent = 'Classificazione: Moderatamente Fragile. Assicurati di ottenere informazioni necessarie per supportare al meglio il paziente.';
+            } else {
+                classification.textContent = 'Classificazione: Fragile Grave. Contatta immediatamente il MMG e il Distretto di riferimento per una presa in carico strutturata.';
+            }
+            classification.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
