@@ -172,7 +172,7 @@
             <div class="question">
                 <h3>14. Ha un medico di base di riferimento?</h3>
                 <label><input type="radio" name="medico" value="0"> Sì</label><br>
-                <label><input type="radio" name="medico" value="2"> No</label>
+                <label><input type="radio" name="medico" value="1"> No</label>
             </div>
 
             <!-- 15. Prenotazioni Visite/Esami -->
@@ -222,7 +222,7 @@
             (mobilita && parseInt(mobilita.value) === 3) || 
             (economiche && parseInt(economiche.value) === 2) || 
             (terapia && parseInt(terapia.value) === 3) || 
-            (medico && parseInt(medico.value) === 2)
+            (medico && parseInt(medico.value) === 1)
         ) {
             isCritical = true;
         }
