@@ -201,6 +201,7 @@
     function calculateScore() {
         let totalScore = 0;
         let isCritical = false;
+        let isModeratelyFragile = false;
 
         // Verifica condizioni critiche
         const sociale = document.querySelector('input[name="sociale"]:checked');
@@ -211,50 +212,63 @@
         const terapia = document.querySelector('input[name="terapia"]:checked');
         const medico = document.querySelector('input[name="medico"]:checked');
 
-       // Condizione: Paziente moderatamente fragile, non critico
-if ((sociale && parseInt(sociale.value) >= 1) && (caregiver && parseInt(caregiver.value) === 2)) {
-    isCritical = false; // Modificato per indicare che non è critico
-    isModeratelyFragile = true; // Aggiunto per indicare che è moderatamente fragile
-}
+        // Voce 2: Aiuto richiesto
+        const aiuto = document.querySelectorAll('input[name="aiuto"]:checked').length;
+        if (aiuto >= 1) {
+            totalScore += aiuto; // Incrementa il punteggio per ogni selezione
+        }
 
-// Condizioni critiche aggiuntive
-if (
-    (cognitivo && parseInt(cognitivo.value) >= 2) || 
-    (mobilita && parseInt(mobilita.value) === 3) || 
-    (economiche && parseInt(economiche.value) === 2) || 
-    (terapia && parseInt(terapia.value) === 3) || 
-    (medico && parseInt(medico.value) === 1)
-) {
-    isCritical = true; // Rimane critico se una delle condizioni aggiuntive è soddisfatta
-    isModeratelyFragile = false; // Non è moderatamente fragile se critico
-}
+        // Voce 3: Altre condizioni multiple
+        const incapacita = document.querySelectorAll('input[name="incapacita"]:checked').length;
+        if (incapacita >= 1) {
+            totalScore += incapacita; // Incrementa il punteggio per ogni selezione
+        }
 
-// Reset flag per garantire esclusività
-if (isCritical) {
-    isModeratelyFragile = false;
-} else if (isModeratelyFragile) {
-    isCritical = false;
-}
+        // Verifica se almeno una patologia critica è presente
+        const hasCriticalCondition = 
+            (cognitivo && parseInt(cognitivo.value) >= 1) ||
+            (mobilita && parseInt(mobilita.value) >= 1) ||
+            (economiche && parseInt(economiche.value) >= 1) ||
+            (terapia && parseInt(terapia.value) >= 1) ||
+            (medico && parseInt(medico.value) >= 1);
 
-        // Calcolo del punteggio cumulativo
-        const singleSelection = ['eta', 'sociale', 'caregiver', 'cognitivo', 'mobilita', 'farmaci', 'terapia', 'economiche', 'parametri', 'dispositivi', 'medico', 'prenotazioni', 'ricoveri'];
-        singleSelection.forEach(name => {
+        // Verifica criteri complementari di gravità
+        const hasSeverityCriteria = 
+            (sociale && parseInt(sociale.value) >= 1) &&
+            (caregiver && parseInt(caregiver.value) === 2);
+
+        // Determina se il paziente è critico
+        if (hasCriticalCondition && hasSeverityCriteria) {
+            isCritical = true;
+        }
+
+        // Verifica se il paziente deve essere classificato almeno come moderatamente fragile
+        const hasModerateCriteria =
+            (caregiver && parseInt(caregiver.value) === 2) ||
+            (sociale && parseInt(sociale.value) >= 1) ||
+            (cognitivo && parseInt(cognitivo.value) >= 1) ||
+            (mobilita && parseInt(mobilita.value) === 2) ||
+            (terapia && parseInt(terapia.value) === 3) ||
+            (economiche && parseInt(economiche.value) === 2) ||
+            (medico && parseInt(medico.value) === 1);
+
+        if (hasModerateCriteria) {
+            isModeratelyFragile = true;
+        }
+
+        // Calcolo del punteggio cumulativo per tutte le risposte
+        const allInputs = ['sociale', 'caregiver', 'cognitivo', 'mobilita', 'economiche', 'terapia', 'medico'];
+        allInputs.forEach(name => {
             const selected = document.querySelector(`input[name="${name}"]:checked`);
             if (selected) totalScore += parseInt(selected.value);
         });
-
-        // Condizioni multiple
-        const aiuto = document.querySelectorAll('input[name="aiuto"]:checked').length;
-        if (aiuto >= 2) totalScore += 2;
-        const incapacita = document.querySelectorAll('input[name="incapacita"]:checked').length;
-        if (incapacita >= 2) totalScore += 2;
-        const patologie = document.querySelectorAll('input[name="patologie"]:checked').length;
-        if (patologie >= 1) totalScore += 1;
 
         // Determina la classificazione
         const classification = document.getElementById('classification');
         if (isCritical) {
             classification.textContent = 'Classificazione: Fragile Grave. Contatta subito il distretto sanitario di riferimento per informazioni e supporto immediato.';
+        } else if (isModeratelyFragile || (medico && parseInt(medico.value) === 1)) {
+            classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il MMG di riferimento per un controllo.';
         } else if (totalScore <= 14) {
             classification.textContent = 'Classificazione: Non Fragile. Per ora il paziente non è in pericolo, monitora periodicamente.';
         } else if (totalScore <= 33) {
