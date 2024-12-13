@@ -158,8 +158,8 @@
             <div class="question">
                 <h3>12. Per gestire la sua salute necessita di rilevazione di parametri vitali?</h3>
                 <label><input type="radio" name="parametri" value="0"> No</label><br>
-                <label><input type="radio" name="parametri" value="1"> Sì e lo fa</label><br>
-                <label><input type="radio" name="parametri" value="2"> Sì ma non lo fa</label>
+                <label><input type="radio" name="parametri" value="1"> Sì ed e' in grado</label><br>
+                <label><input type="radio" name="parametri" value="2"> Sì ma non e' in grado</label>
             </div>
             <!-- 13. Dispositivi Medici -->
             <div class="question">
@@ -211,21 +211,30 @@
         const terapia = document.querySelector('input[name="terapia"]:checked');
         const medico = document.querySelector('input[name="medico"]:checked');
 
-        // Condizione critica: Vive da solo o con supporto familiare e senza caregiver
-        if ((sociale && parseInt(sociale.value) >= 1) && (caregiver && parseInt(caregiver.value) === 2)) {
-            isCritical = true;
-        }
+       // Condizione: Paziente moderatamente fragile, non critico
+if ((sociale && parseInt(sociale.value) >= 1) && (caregiver && parseInt(caregiver.value) === 2)) {
+    isCritical = false; // Modificato per indicare che non è critico
+    isModeratelyFragile = true; // Aggiunto per indicare che è moderatamente fragile
+}
 
-        // Condizioni critiche aggiuntive
-        if (
-            (cognitivo && parseInt(cognitivo.value) >= 2) || 
-            (mobilita && parseInt(mobilita.value) === 3) || 
-            (economiche && parseInt(economiche.value) === 2) || 
-            (terapia && parseInt(terapia.value) === 3) || 
-            (medico && parseInt(medico.value) === 1)
-        ) {
-            isCritical = true;
-        }
+// Condizioni critiche aggiuntive
+if (
+    (cognitivo && parseInt(cognitivo.value) >= 2) || 
+    (mobilita && parseInt(mobilita.value) === 3) || 
+    (economiche && parseInt(economiche.value) === 2) || 
+    (terapia && parseInt(terapia.value) === 3) || 
+    (medico && parseInt(medico.value) === 1)
+) {
+    isCritical = true; // Rimane critico se una delle condizioni aggiuntive è soddisfatta
+    isModeratelyFragile = false; // Non è moderatamente fragile se critico
+}
+
+// Reset flag per garantire esclusività
+if (isCritical) {
+    isModeratelyFragile = false;
+} else if (isModeratelyFragile) {
+    isCritical = false;
+}
 
         // Calcolo del punteggio cumulativo
         const singleSelection = ['eta', 'sociale', 'caregiver', 'cognitivo', 'mobilita', 'farmaci', 'terapia', 'economiche', 'parametri', 'dispositivi', 'medico', 'prenotazioni', 'ricoveri'];
