@@ -269,11 +269,11 @@
         if (isCritical) {
             classification.textContent = 'Classificazione: Fragile Grave. Contatta subito il distretto sanitario di riferimento per informazioni e supporto immediato.';
         } else if (isModeratelyFragile || (medico && parseInt(medico.value) === 1)) {
-            classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il MMG di riferimento per un controllo.';
+            classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il Medico di Base di riferimento per un controllo.';
         } else if (totalScore <= 14) {
             classification.textContent = 'Classificazione: Non Fragile. Per ora il paziente non è in pericolo, monitora periodicamente.';
         } else if (totalScore <= 33) {
-            classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il MMG di riferimento per un controllo.';
+            classification.textContent = 'Classificazione: Fragile Moderato. Monitora il paziente e, se non puoi, contatta il Medico di Base di riferimento per un controllo.';
         } else {
             classification.textContent = 'Classificazione: Fragile Grave. Contatta subito il distretto sanitario di riferimento per informazioni e supporto immediato.';
         }
